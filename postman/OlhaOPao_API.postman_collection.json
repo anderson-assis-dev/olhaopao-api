@@ -1,0 +1,1385 @@
+{
+  "info": {
+    "name": "Olha o Pao API",
+    "description": "API para o sistema Olha o Pao - Plataforma de conexao entre delicatessens e clientes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "clientAccessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "delicatessenId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "clientId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "productId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "batchId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cartId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cartItemId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "description": "Endpoints de autenticacao",
+      "item": [
+        {
+          "name": "Register Delicatessen User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.accessToken) {",
+                  "    pm.collectionVariables.set('accessToken', jsonData.accessToken);",
+                  "}",
+                  "if (jsonData.user && jsonData.user.id) {",
+                  "    pm.collectionVariables.set('userId', jsonData.user.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"padaria@exemplo.com\",\n  \"password\": \"Senha@123\",\n  \"name\": \"Joao da Padaria\",\n  \"userType\": \"delicatessen\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Registra um novo usuario do tipo delicatessen"
+          }
+        },
+        {
+          "name": "Register Client User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.accessToken) {",
+                  "    pm.collectionVariables.set('clientAccessToken', jsonData.accessToken);",
+                  "}",
+                  "if (jsonData.user && jsonData.user.id) {",
+                  "    pm.collectionVariables.set('clientUserId', jsonData.user.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"cliente@exemplo.com\",\n  \"password\": \"Senha@123\",\n  \"name\": \"Maria Cliente\",\n  \"userType\": \"client\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Registra um novo usuario do tipo cliente"
+          }
+        },
+        {
+          "name": "Login Delicatessen",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.accessToken) {",
+                  "    pm.collectionVariables.set('accessToken', jsonData.accessToken);",
+                  "}",
+                  "if (jsonData.user && jsonData.user.id) {",
+                  "    pm.collectionVariables.set('userId', jsonData.user.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"padaria@exemplo.com\",\n  \"password\": \"Senha@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login de usuario delicatessen"
+          }
+        },
+        {
+          "name": "Login Client",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.accessToken) {",
+                  "    pm.collectionVariables.set('clientAccessToken', jsonData.accessToken);",
+                  "}",
+                  "if (jsonData.user && jsonData.user.id) {",
+                  "    pm.collectionVariables.set('clientUserId', jsonData.user.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"cliente@exemplo.com\",\n  \"password\": \"Senha@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login de usuario cliente"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "description": "Gerenciamento de usuarios",
+      "item": [
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "me"]
+            },
+            "description": "Retorna os dados do usuario logado"
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Joao da Padaria Atualizado\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}"]
+            },
+            "description": "Atualiza dados do usuario"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delicatessen",
+      "description": "Gerenciamento de delicatessens",
+      "item": [
+        {
+          "name": "Create Delicatessen",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.id) {",
+                  "    pm.collectionVariables.set('delicatessenId', jsonData.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Padaria Pao Quente\",\n  \"description\": \"A melhor padaria artesanal de Salvador\",\n  \"cnpj\": \"12345678000199\",\n  \"phone\": \"71999999999\",\n  \"email\": \"contato@paoquente.com.br\",\n  \"address\": \"Rua das Flores\",\n  \"addressNumber\": \"123\",\n  \"complement\": \"Loja A\",\n  \"neighborhood\": \"Pituba\",\n  \"city\": \"Salvador\",\n  \"state\": \"BA\",\n  \"zipCode\": \"41810000\",\n  \"latitude\": -12.9714,\n  \"longitude\": -38.4503,\n  \"openingHours\": \"Seg-Sab: 06:00-20:00, Dom: 06:00-12:00\",\n  \"logoUrl\": \"https://exemplo.com/logo.png\",\n  \"bannerUrl\": \"https://exemplo.com/banner.png\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen"]
+            },
+            "description": "Cria uma nova delicatessen"
+          }
+        },
+        {
+          "name": "Get All Delicatessens",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen"]
+            },
+            "description": "Lista todas as delicatessens ativas"
+          }
+        },
+        {
+          "name": "Get Delicatessen by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}"]
+            },
+            "description": "Busca delicatessen por ID"
+          }
+        },
+        {
+          "name": "Update Delicatessen",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"A melhor padaria artesanal de Salvador - Desde 1990\",\n  \"openingHours\": \"Seg-Sab: 05:30-21:00, Dom: 06:00-14:00\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}"]
+            },
+            "description": "Atualiza dados da delicatessen"
+          }
+        },
+        {
+          "name": "Delete Delicatessen",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}"]
+            },
+            "description": "Remove delicatessen (soft delete)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Clients",
+      "description": "Gerenciamento de perfil de clientes",
+      "item": [
+        {
+          "name": "Get Client Profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.id) {",
+                  "    pm.collectionVariables.set('clientId', jsonData.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/clients/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["clients", "me"]
+            },
+            "description": "Retorna o perfil do cliente logado"
+          }
+        },
+        {
+          "name": "Update Client Profile",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cpf\": \"12345678901\",\n  \"phone\": \"71988888888\",\n  \"birthDate\": \"1990-05-15\",\n  \"address\": \"Av. Tancredo Neves\",\n  \"addressNumber\": \"1234\",\n  \"complement\": \"Apto 501\",\n  \"neighborhood\": \"Caminho das Arvores\",\n  \"city\": \"Salvador\",\n  \"state\": \"BA\",\n  \"zipCode\": \"41820021\",\n  \"latitude\": -12.9822,\n  \"longitude\": -38.4567\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/clients/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["clients", "me"]
+            },
+            "description": "Atualiza perfil do cliente"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "description": "Gerenciamento de produtos da delicatessen",
+      "item": [
+        {
+          "name": "Create Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.id) {",
+                  "    pm.collectionVariables.set('productId', jsonData.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Pao Frances\",\n  \"description\": \"Pao frances tradicional, crocante por fora e macio por dentro\",\n  \"category\": \"paes\",\n  \"price\": 0.75,\n  \"imageUrl\": \"https://exemplo.com/pao-frances.jpg\",\n  \"preparationTime\": 45,\n  \"isAvailable\": true,\n  \"isFeatured\": true,\n  \"ingredients\": \"Farinha de trigo, agua, sal, fermento biologico\",\n  \"allergens\": \"Contem gluten\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "products"]
+            },
+            "description": "Cria um novo produto"
+          }
+        },
+        {
+          "name": "Create Product - Pao de Queijo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.id) {",
+                  "    pm.collectionVariables.set('productId2', jsonData.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Pao de Queijo\",\n  \"description\": \"Tradicional pao de queijo mineiro\",\n  \"category\": \"paes\",\n  \"price\": 3.50,\n  \"promotionalPrice\": 2.99,\n  \"imageUrl\": \"https://exemplo.com/pao-queijo.jpg\",\n  \"preparationTime\": 25,\n  \"isAvailable\": true,\n  \"isFeatured\": true,\n  \"ingredients\": \"Polvilho azedo, queijo minas, ovos, oleo\",\n  \"allergens\": \"Contem lactose e ovos\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "products"]
+            },
+            "description": "Cria pao de queijo"
+          }
+        },
+        {
+          "name": "Create Product - Cafe Expresso",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Cafe Expresso\",\n  \"description\": \"Cafe expresso italiano\",\n  \"category\": \"bebidas\",\n  \"price\": 5.00,\n  \"imageUrl\": \"https://exemplo.com/cafe.jpg\",\n  \"preparationTime\": 3,\n  \"isAvailable\": true,\n  \"isFeatured\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "products"]
+            },
+            "description": "Cria cafe expresso"
+          }
+        },
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "products"]
+            },
+            "description": "Lista todos os produtos da delicatessen"
+          }
+        },
+        {
+          "name": "Get Available Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/products/available",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "products", "available"]
+            },
+            "description": "Lista produtos disponiveis"
+          }
+        },
+        {
+          "name": "Get Product by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "products", "{{productId}}"]
+            },
+            "description": "Busca produto por ID"
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 0.85,\n  \"description\": \"Pao frances tradicional - Receita da casa\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "products", "{{productId}}"]
+            },
+            "description": "Atualiza produto"
+          }
+        },
+        {
+          "name": "Toggle Product Availability",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/products/{{productId}}/toggle-availability",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "products", "{{productId}}", "toggle-availability"]
+            },
+            "description": "Alterna disponibilidade do produto"
+          }
+        },
+        {
+          "name": "Toggle Product Featured",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/products/{{productId}}/toggle-featured",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "products", "{{productId}}", "toggle-featured"]
+            },
+            "description": "Alterna destaque do produto"
+          }
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "products", "{{productId}}"]
+            },
+            "description": "Remove produto (soft delete)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Batches (Fornadas)",
+      "description": "Gerenciamento de fornadas",
+      "item": [
+        {
+          "name": "Create Batch",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.id) {",
+                  "    pm.collectionVariables.set('batchId', jsonData.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"estimatedQuantity\": 50,\n  \"preparationTime\": 45,\n  \"startTime\": \"2026-01-18T10:00:00Z\",\n  \"status\": \"preparing\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/batches",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "batches"]
+            },
+            "description": "Cria uma nova fornada"
+          }
+        },
+        {
+          "name": "Get All Batches",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/batches",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "batches"]
+            },
+            "description": "Lista todas as fornadas da delicatessen"
+          }
+        },
+        {
+          "name": "Get Active Batches",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/batches/active",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "batches", "active"]
+            },
+            "description": "Lista fornadas ativas (preparing, in_oven, ready)"
+          }
+        },
+        {
+          "name": "Get Batch by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/batches/{{batchId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "batches", "{{batchId}}"]
+            },
+            "description": "Busca fornada por ID"
+          }
+        },
+        {
+          "name": "Update Batch",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estimatedQuantity\": 60\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/batches/{{batchId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "batches", "{{batchId}}"]
+            },
+            "description": "Atualiza fornada"
+          }
+        },
+        {
+          "name": "Update Batch Status - In Oven",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"in_oven\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/batches/{{batchId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "batches", "{{batchId}}", "status"]
+            },
+            "description": "Atualiza status para 'no forno'"
+          }
+        },
+        {
+          "name": "Update Batch Status - Ready",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"ready\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/batches/{{batchId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "batches", "{{batchId}}", "status"]
+            },
+            "description": "Atualiza status para 'pronto'"
+          }
+        },
+        {
+          "name": "Update Batch Status - Finished",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"finished\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/batches/{{batchId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "batches", "{{batchId}}", "status"]
+            },
+            "description": "Atualiza status para 'finalizado'"
+          }
+        },
+        {
+          "name": "Delete Batch",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/batches/{{batchId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["delicatessen", "{{delicatessenId}}", "batches", "{{batchId}}"]
+            },
+            "description": "Remove fornada (soft delete)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notification Preferences",
+      "description": "Preferencias de notificacao do cliente",
+      "item": [
+        {
+          "name": "Create Notification Preferences",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isEnabled\": true,\n  \"allowedStartTime\": \"07:00\",\n  \"allowedEndTime\": \"19:00\",\n  \"maxDistanceRadius\": 5,\n  \"allowedWeekdays\": [1, 2, 3, 4, 5],\n  \"notifyOnNewBatch\": true,\n  \"notifyOnBatchReady\": true,\n  \"notifyOnPromotion\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/notification-preferences",
+              "host": ["{{baseUrl}}"],
+              "path": ["notification-preferences"]
+            },
+            "description": "Cria preferencias de notificacao (apenas uma por cliente)"
+          }
+        },
+        {
+          "name": "Get Notification Preferences",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notification-preferences",
+              "host": ["{{baseUrl}}"],
+              "path": ["notification-preferences"]
+            },
+            "description": "Retorna preferencias do cliente logado"
+          }
+        },
+        {
+          "name": "Update Notification Preferences",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"allowedStartTime\": \"06:00\",\n  \"allowedEndTime\": \"20:00\",\n  \"maxDistanceRadius\": 10,\n  \"allowedWeekdays\": [0, 1, 2, 3, 4, 5, 6]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/notification-preferences",
+              "host": ["{{baseUrl}}"],
+              "path": ["notification-preferences"]
+            },
+            "description": "Atualiza preferencias"
+          }
+        },
+        {
+          "name": "Toggle Notifications",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notification-preferences/toggle",
+              "host": ["{{baseUrl}}"],
+              "path": ["notification-preferences", "toggle"]
+            },
+            "description": "Ativa/desativa notificacoes"
+          }
+        },
+        {
+          "name": "Get Favorite Products",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notification-preferences/favorite-products",
+              "host": ["{{baseUrl}}"],
+              "path": ["notification-preferences", "favorite-products"]
+            },
+            "description": "Lista produtos favoritos"
+          }
+        },
+        {
+          "name": "Add Favorite Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/notification-preferences/favorite-products",
+              "host": ["{{baseUrl}}"],
+              "path": ["notification-preferences", "favorite-products"]
+            },
+            "description": "Adiciona produto aos favoritos"
+          }
+        },
+        {
+          "name": "Remove Favorite Product",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notification-preferences/favorite-products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["notification-preferences", "favorite-products", "{{productId}}"]
+            },
+            "description": "Remove produto dos favoritos"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Carts (Carrinho)",
+      "description": "Gerenciamento de carrinho de compras",
+      "item": [
+        {
+          "name": "Create Cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.id) {",
+                  "    pm.collectionVariables.set('cartId', jsonData.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"delicatessenId\": \"{{delicatessenId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts",
+              "host": ["{{baseUrl}}"],
+              "path": ["carts"]
+            },
+            "description": "Cria um novo carrinho vinculado a uma delicatessen"
+          }
+        },
+        {
+          "name": "Get Active Cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData && jsonData.id) {",
+                  "    pm.collectionVariables.set('cartId', jsonData.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/carts/active",
+              "host": ["{{baseUrl}}"],
+              "path": ["carts", "active"]
+            },
+            "description": "Retorna o carrinho ativo do cliente"
+          }
+        },
+        {
+          "name": "Get Cart by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["carts", "{{cartId}}"]
+            },
+            "description": "Busca carrinho por ID"
+          }
+        },
+        {
+          "name": "Get Cart History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/carts/history",
+              "host": ["{{baseUrl}}"],
+              "path": ["carts", "history"]
+            },
+            "description": "Historico de compras (pagas e canceladas)"
+          }
+        },
+        {
+          "name": "Add Item to Cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.items && jsonData.items.length > 0) {",
+                  "    pm.collectionVariables.set('cartItemId', jsonData.items[0].id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"quantity\": 5,\n  \"notes\": \"Bem assado, por favor\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["carts", "{{cartId}}", "items"]
+            },
+            "description": "Adiciona item ao carrinho"
+          }
+        },
+        {
+          "name": "Add Another Item to Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId2}}\",\n  \"quantity\": 3\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["carts", "{{cartId}}", "items"]
+            },
+            "description": "Adiciona outro item ao carrinho"
+          }
+        },
+        {
+          "name": "Update Cart Item",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 10,\n  \"notes\": \"Bem quentinho\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}/items/{{cartItemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["carts", "{{cartId}}", "items", "{{cartItemId}}"]
+            },
+            "description": "Atualiza quantidade ou notas do item"
+          }
+        },
+        {
+          "name": "Remove Cart Item",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}/items/{{cartItemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["carts", "{{cartId}}", "items", "{{cartItemId}}"]
+            },
+            "description": "Remove item do carrinho"
+          }
+        },
+        {
+          "name": "Clear Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}/clear",
+              "host": ["{{baseUrl}}"],
+              "path": ["carts", "{{cartId}}", "clear"]
+            },
+            "description": "Remove todos os itens do carrinho"
+          }
+        },
+        {
+          "name": "Checkout - Credit Card",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentMethod\": \"credit_card\",\n  \"cashbackToUse\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["carts", "{{cartId}}", "checkout"]
+            },
+            "description": "Inicia checkout com cartao de credito"
+          }
+        },
+        {
+          "name": "Checkout - PIX",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentMethod\": \"pix\",\n  \"cashbackToUse\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["carts", "{{cartId}}", "checkout"]
+            },
+            "description": "Inicia checkout com PIX"
+          }
+        },
+        {
+          "name": "Checkout - With Cashback",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentMethod\": \"credit_card\",\n  \"cashbackToUse\": 5.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["carts", "{{cartId}}", "checkout"]
+            },
+            "description": "Inicia checkout usando cashback acumulado"
+          }
+        },
+        {
+          "name": "Cancel Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["carts", "{{cartId}}", "cancel"]
+            },
+            "description": "Cancela o carrinho"
+          }
+        }
+      ]
+    }
+  ]
+}

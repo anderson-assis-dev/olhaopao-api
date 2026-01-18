@@ -79,7 +79,7 @@ export class Cart {
   @Column({ nullable: true })
   paymentExternalId: string;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'datetime', nullable: true })
   paidAt: Date;
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.cart)

@@ -36,10 +36,10 @@ export class Batch {
   @Column({ type: 'integer' })
   preparationTime: number;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'datetime' })
   startTime: Date;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'datetime', nullable: true })
   estimatedReadyTime: Date;
 
   @Column({

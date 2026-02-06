@@ -92,7 +92,8 @@ export class Delicatessen {
 
   @Column({ type: 'text', nullable: true })
   openingHours: string;
-
+  @Column({ default: false })
+  isOpen: boolean;
   @Column()
   ownerId: string;
 

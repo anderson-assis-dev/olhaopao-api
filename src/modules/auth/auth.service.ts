@@ -182,4 +182,14 @@ export class AuthService {
     };
     return this.jwtService.sign(payload);
   }
+  async getProfile(userId: string): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['delicatessen', 'client'],
+    });
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+    return user;
+  }
 }

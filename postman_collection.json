@@ -1,0 +1,298 @@
+{
+  "info": {
+    "name": "Olha o Pão API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {"key": "baseUrl", "value": "http://localhost:3000/api"},
+    {"key": "token", "value": ""},
+    {"key": "delicatessenId", "value": ""},
+    {"key": "productId", "value": ""},
+    {"key": "checkinId", "value": ""}
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register Client",
+          "event": [{"listen": "test", "script": {"exec": ["var jsonData = pm.response.json();", "if (jsonData.accessToken) { pm.collectionVariables.set('token', jsonData.accessToken); }"], "type": "text/javascript"}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"name\": \"João Silva\",\n  \"email\": \"joao@email.com\",\n  \"password\": \"senha123\",\n  \"userType\": \"client\",\n  \"clientData\": {\n    \"cpf\": \"12345678900\",\n    \"phone\": \"71999999999\"\n  }\n}"},
+            "url": {"raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"]}
+          }
+        },
+        {
+          "name": "Register Delicatessen",
+          "event": [{"listen": "test", "script": {"exec": ["var jsonData = pm.response.json();", "if (jsonData.accessToken) { pm.collectionVariables.set('token', jsonData.accessToken); }", "if (jsonData.user && jsonData.user.delicatessenId) { pm.collectionVariables.set('delicatessenId', jsonData.user.delicatessenId); }"], "type": "text/javascript"}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"name\": \"Maria Padeira\",\n  \"email\": \"padaria@email.com\",\n  \"password\": \"senha123\",\n  \"userType\": \"delicatessen\",\n  \"delicatessenData\": {\n    \"name\": \"Padaria Pão Quente\",\n    \"tradeName\": \"Pão Quente\",\n    \"document\": \"12345678000190\",\n    \"documentType\": \"cnpj\",\n    \"email\": \"contato@paoquente.com\",\n    \"phone\": \"7133334444\",\n    \"whatsapp\": \"71999998888\",\n    \"address\": \"Rua das Flores\",\n    \"addressNumber\": \"123\",\n    \"complement\": \"Loja A\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Salvador\",\n    \"state\": \"BA\",\n    \"zipCode\": \"40000000\"\n  }\n}"},
+            "url": {"raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"]}
+          }
+        },
+        {
+          "name": "Login",
+          "event": [{"listen": "test", "script": {"exec": ["var jsonData = pm.response.json();", "if (jsonData.accessToken) { pm.collectionVariables.set('token', jsonData.accessToken); }", "if (jsonData.user && jsonData.user.delicatessenId) { pm.collectionVariables.set('delicatessenId', jsonData.user.delicatessenId); }"], "type": "text/javascript"}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"email\": \"joao@email.com\",\n  \"password\": \"senha123\"\n}"},
+            "url": {"raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"]}
+          }
+        },
+        {
+          "name": "Get Me",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth", "me"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/users/me", "host": ["{{baseUrl}}"], "path": ["users", "me"]}
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/users", "host": ["{{baseUrl}}"], "path": ["users"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Delicatessens (Favoritos)",
+      "item": [
+        {
+          "name": "Add Delicatessen to Favorites",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/users/delicatessens/{{delicatessenId}}", "host": ["{{baseUrl}}"], "path": ["users", "delicatessens", "{{delicatessenId}}"]}
+          }
+        },
+        {
+          "name": "Get My Favorite Delicatessens",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/users/delicatessens", "host": ["{{baseUrl}}"], "path": ["users", "delicatessens"]}
+          }
+        },
+        {
+          "name": "Remove Delicatessen from Favorites",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/users/delicatessens/{{delicatessenId}}", "host": ["{{baseUrl}}"], "path": ["users", "delicatessens", "{{delicatessenId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delicatessen",
+      "item": [
+        {
+          "name": "Get All Delicatessens",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/delicatessen", "host": ["{{baseUrl}}"], "path": ["delicatessen"]}
+          }
+        },
+        {
+          "name": "Get Delicatessen by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}", "host": ["{{baseUrl}}"], "path": ["delicatessen", "{{delicatessenId}}"]}
+          }
+        },
+        {
+          "name": "Update Delicatessen (add location)",
+          "request": {
+            "method": "PATCH",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"latitude\": -12.9714,\n  \"longitude\": -38.5014,\n  \"isOpen\": true\n}"},
+            "url": {"raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}", "host": ["{{baseUrl}}"], "path": ["delicatessen", "{{delicatessenId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Create Product",
+          "event": [{"listen": "test", "script": {"exec": ["var jsonData = pm.response.json();", "if (jsonData.id) { pm.collectionVariables.set('productId', jsonData.id); }"], "type": "text/javascript"}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"name\": \"Pão Francês\",\n  \"description\": \"Pão fresquinho\",\n  \"price\": 0.50,\n  \"category\": \"paes\",\n  \"isAvailable\": true\n}"},
+            "url": {"raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/products", "host": ["{{baseUrl}}"], "path": ["delicatessen", "{{delicatessenId}}", "products"]}
+          }
+        },
+        {
+          "name": "Get Products by Delicatessen",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/delicatessen/{{delicatessenId}}/products", "host": ["{{baseUrl}}"], "path": ["delicatessen", "{{delicatessenId}}", "products"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Batches",
+      "item": [
+        {
+          "name": "Create Batch",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"estimatedQuantity\": 50,\n  \"preparationTime\": 30,\n  \"startTime\": \"2024-01-15T08:00:00Z\"\n}"},
+            "url": {"raw": "{{baseUrl}}/batches", "host": ["{{baseUrl}}"], "path": ["batches"]}
+          }
+        },
+        {
+          "name": "Get Batches by Delicatessen",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/batches/delicatessen/{{delicatessenId}}", "host": ["{{baseUrl}}"], "path": ["batches", "delicatessen", "{{delicatessenId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Checkins",
+      "item": [
+        {
+          "name": "Create Checkin (with photo)",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "delicatessenId", "value": "{{delicatessenId}}", "type": "text"},
+                {"key": "lat", "value": "-12.9714", "type": "text"},
+                {"key": "long", "value": "-38.5014", "type": "text"},
+                {"key": "photo", "type": "file", "src": ""}
+              ]
+            },
+            "url": {"raw": "{{baseUrl}}/checkins", "host": ["{{baseUrl}}"], "path": ["checkins"]}
+          }
+        },
+        {
+          "name": "Create Checkin (JSON)",
+          "event": [{"listen": "test", "script": {"exec": ["var jsonData = pm.response.json();", "if (jsonData.id) { pm.collectionVariables.set('checkinId', jsonData.id); }"], "type": "text/javascript"}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"delicatessenId\": \"{{delicatessenId}}\",\n  \"lat\": -12.9714,\n  \"long\": -38.5014\n}"},
+            "url": {"raw": "{{baseUrl}}/checkins", "host": ["{{baseUrl}}"], "path": ["checkins"]}
+          }
+        },
+        {
+          "name": "Get My Checkins",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/checkins", "host": ["{{baseUrl}}"], "path": ["checkins"]}
+          }
+        },
+        {
+          "name": "Approve Checkin",
+          "request": {
+            "method": "PATCH",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"status\": \"approved\"\n}"},
+            "url": {"raw": "{{baseUrl}}/checkins/{{checkinId}}/status", "host": ["{{baseUrl}}"], "path": ["checkins", "{{checkinId}}", "status"]}
+          }
+        },
+        {
+          "name": "Reject Checkin",
+          "request": {
+            "method": "PATCH",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"status\": \"rejected\"\n}"},
+            "url": {"raw": "{{baseUrl}}/checkins/{{checkinId}}/status", "host": ["{{baseUrl}}"], "path": ["checkins", "{{checkinId}}", "status"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Loyalty",
+      "item": [
+        {
+          "name": "Get Loyalty Summary",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/loyalty/summary", "host": ["{{baseUrl}}"], "path": ["loyalty", "summary"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Carts",
+      "item": [
+        {
+          "name": "Create Cart",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"delicatessenId\": \"{{delicatessenId}}\"\n}"},
+            "url": {"raw": "{{baseUrl}}/carts", "host": ["{{baseUrl}}"], "path": ["carts"]}
+          }
+        },
+        {
+          "name": "Get My Active Cart",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/carts/active", "host": ["{{baseUrl}}"], "path": ["carts", "active"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Clients",
+      "item": [
+        {
+          "name": "Get My Client Profile",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/clients/me", "host": ["{{baseUrl}}"], "path": ["clients", "me"]}
+          }
+        },
+        {
+          "name": "Update Client Profile",
+          "request": {
+            "method": "PATCH",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"latitude\": -12.9714,\n  \"longitude\": -38.5014,\n  \"notificationsEnabled\": true,\n  \"notificationRadius\": 3000\n}"},
+            "url": {"raw": "{{baseUrl}}/clients/me", "host": ["{{baseUrl}}"], "path": ["clients", "me"]}
+          }
+        }
+      ]
+    }
+  ]
+}

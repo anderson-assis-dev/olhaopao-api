@@ -10,7 +10,8 @@ import { ProductsModule } from './modules/products/products.module';
 import { BatchesModule } from './modules/batches/batches.module';
 import { NotificationPreferencesModule } from './modules/notification-preferences/notification-preferences.module';
 import { CartsModule } from './modules/carts/carts.module';
-
+import { CheckinsModule } from './modules/checkins/checkins.module';
+import { LoyaltyModule } from './modules/loyalty/loyalty.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -26,6 +27,8 @@ import { CartsModule } from './modules/carts/carts.module';
     BatchesModule,
     NotificationPreferencesModule,
     CartsModule,
+    CheckinsModule,
+    LoyaltyModule,
   ],
   controllers: [],
   providers: [],

@@ -73,7 +73,15 @@ export class ClientsService {
     if (currentUser.userType !== UserType.CLIENT) {
       throw new ForbiddenException('Only clients can access this resource');
     }
-
+    return this.findByUserId(currentUser.id);
+  }
+  async updateMe(updateClientDto: UpdateClientDto, currentUser: User): Promise<Client> {
+    if (currentUser.userType !== UserType.CLIENT) {
+      throw new ForbiddenException('Only clients can access this resource');
+    }
+    const client = await this.findByUserId(currentUser.id);
+    Object.assign(client, updateClientDto);
+    await this.clientRepository.save(client);
     return this.findByUserId(currentUser.id);
   }
 }

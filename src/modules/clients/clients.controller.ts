@@ -23,11 +23,18 @@ export class ClientsController {
     return this.clientsService.findAll();
   }
 
+  @Get('me')
+  getMe(@CurrentUser() user: User) {
+    return this.clientsService.getProfile(user);
+  }
+  @Patch('me')
+  updateMe(@Body() updateClientDto: UpdateClientDto, @CurrentUser() user: User) {
+    return this.clientsService.updateMe(updateClientDto, user);
+  }
   @Get('profile')
   getProfile(@CurrentUser() user: User) {
     return this.clientsService.getProfile(user);
   }
-
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.clientsService.findOne(id);
